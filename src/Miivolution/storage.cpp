@@ -133,7 +133,7 @@ std::vector<std::filesystem::path> getMiixports() {
     }
 
     for (const auto& entry : std::filesystem::directory_iterator(dir)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".mii") {
+        if (entry.is_regular_file() && (entry.path().extension() == ".mii" || entry.path().extension() == ".rcd")) {
             files.push_back(entry.path());
         }
     }
