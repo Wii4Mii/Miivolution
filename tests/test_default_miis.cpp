@@ -88,9 +88,9 @@ TEST_CASE("Invalid data sources return correct errors", "[rfl][default-db]") {
     RFLiCharInfo charInfo;
     RFLMiddleDB* db = nullptr;
 
-    // official data source succeeds with null db (falls back to defaults)
+    // official data source fails with empty db (no data at index 0)
     RFLErrcode err = RFLiPickupCharInfo(&charInfo, RFLDataSource_Official, db, 0);
-    REQUIRE(err == RFLErrcode_Success);
+    REQUIRE(err == RFLErrcode_DBNodata);
 
     // controller data sources fail with null db (require actual controller data)
     err = RFLiPickupCharInfo(&charInfo, RFLDataSource_Controller1, db, 0);
