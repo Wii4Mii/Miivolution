@@ -24,10 +24,6 @@ BOOL RFLIsAvailableOfficialData(u16 index) {
         return FALSE;
     }
 
-    if (index == RFLiPlaceholderOfficialIndex) {
-        return TRUE;
-    }
-
     for (int i = 0; i < RFL_NAME_LEN; i++) {
         if (db->rawData[index].name[i] != 0) {
             return TRUE;
@@ -48,7 +44,6 @@ BOOL RFLSearchOfficialData(const RFLCreateID* id, u16* index) {
 
     RFLiDatabase* db = RFLiGetDatabase();
     if (!db) {
-        *index = RFLiPlaceholderOfficialIndex;
         return FALSE;
     }
 
@@ -69,7 +64,6 @@ BOOL RFLSearchOfficialData(const RFLCreateID* id, u16* index) {
         }
     }
 
-    *index = RFLiPlaceholderOfficialIndex;
     return FALSE;
 }
 

@@ -28,13 +28,13 @@ RFLErrcode RFLiPickupCharInfo(void* info, RFLDataSource source, RFLMiddleDB* db,
             RFLiDatabase* database = RFLiGetDatabase();
             if (database) {
                 RFLiConvertRaw2Info(&database->rawData[index], charInfo);
+                err = RFLErrcode_Success;
             } else {
-                RFLiGetDefaultData(charInfo, index);
+                err = RFLErrcode_DBNodata;
             }
         } else {
-            RFLiGetDefaultData(charInfo, RFLiPlaceholderOfficialIndex);
+            err = RFLErrcode_DBNodata;
         }
-        err = RFLErrcode_Success;
         break;
     case RFLDataSource_Controller1:
     case RFLDataSource_Controller2:
