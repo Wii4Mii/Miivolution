@@ -1,6 +1,7 @@
 #include <cmath>
 #include <numbers>
 #include <cstring>
+#include <bit>
 
 #include "RFL_Icon.h"
 #include "RFL_Model.h"
@@ -43,7 +44,7 @@ constexpr u32 getMaskBufSize(RFLResolution resolution) {
 }
 
 constexpr u32 countExpressions(u32 exprFlags) {
-    return __builtin_popcount(exprFlags);
+    return static_cast<u32>(std::popcount(exprFlags));
 }
 
 void convertCharInfo(const RFLiCharInfo& in, CharInfo* out) {
@@ -134,7 +135,7 @@ void RFLiInitCharModel(RFLCharModel* model, RFLiCharInfo* info, void* work, RFLR
 }
 
 void RFLiSetupCopyTex(GXTexFmt fmt, u16 width, u16 height, void* buf, GXColor clearColor) {
-    GXSetFog(GX_FOG_NONE, 1.0f, 1.0f, 0.0f, 0.0f, (GXColor){0, 0, 0, 0});
+    GXSetFog(GX_FOG_NONE, 1.0f, 1.0f, 0.0f, 0.0f, GXColor{0, 0, 0, 0});
     GXSetColorUpdate(GX_TRUE);
     GXSetAlphaUpdate(GX_TRUE);
     GXSetDstAlpha(GX_FALSE, 0);
@@ -179,7 +180,7 @@ void RFLiMakeIcon(void* buf, RFLiCharInfo* info, RFLExpression expression, const
     Vec pos;
     RFLDrawSetting drawSetting;
 
-    iconCoordData = (CoordData){1, 2, 0, FALSE, FALSE, FALSE};
+    iconCoordData = CoordData{1, 2, 0, FALSE, FALSE, FALSE};
     byteSize = setting->width * setting->height * sizeof(u16);
     coordData = *coordinateData;
     coordinateData = &iconCoordData;
@@ -225,14 +226,14 @@ void RFLiMakeIcon(void* buf, RFLiCharInfo* info, RFLExpression expression, const
     C_MTXPerspective(projMtx, fovy, aspect, 500.0f, 700.0f);
     GXSetProjection(projMtx, GX_PERSPECTIVE);
 
-    cameraPos = (Vec){0.0f, 34.5f, 600.0f};
-    target = (Vec){0.0f, 34.5f, 0.0f};
-    cameraUp = (Vec){0.0f, 1.0f, 0.0f};
+    cameraPos = Vec{0.0f, 34.5f, 600.0f};
+    target = Vec{0.0f, 34.5f, 0.0f};
+    cameraUp = Vec{0.0f, 1.0f, 0.0f};
 
     C_MTXLookAt(viewMtx, &cameraPos, &cameraUp, &target);
-    GXInitLightColor(&light, (GXColor){255, 255, 255, 255});
+    GXInitLightColor(&light, GXColor{255, 255, 255, 255});
 
-    pos = (Vec){1600.0f, 1500.0f, 6000.0f};
+    pos = Vec{1600.0f, 1500.0f, 6000.0f};
 
     PSMTXMultVec(viewMtx, &pos, &pos);
     GXInitLightPos(&light, pos.x, pos.y, pos.z);
@@ -243,7 +244,7 @@ void RFLiMakeIcon(void* buf, RFLiCharInfo* info, RFLExpression expression, const
     drawSetting.lightMask = GX_LIGHT0;
     drawSetting.diffuse = GX_DF_CLAMP;
     drawSetting.attn = GX_AF_NONE;
-    drawSetting.ambColor = (GXColor){160, 160, 160, 255};
+    drawSetting.ambColor = GXColor{160, 160, 160, 255};
     drawSetting.compLoc = 0;
     RFLLoadDrawSetting(&drawSetting);
 

@@ -6,8 +6,8 @@
 namespace {
 miivolution::database::PrefPathConfig g_cfg;
 std::filesystem::path g_cache;
-constexpr std::string ORG_NAME = "Wii4Mii";
-constexpr std::string LIB_NAME = "Miivolution";
+constexpr const char* ORG_NAME = "Wii4Mii";
+constexpr const char* LIB_NAME = "Miivolution";
 } // namespace
 
 namespace miivolution::database {
@@ -36,7 +36,7 @@ std::filesystem::path getPrefDir() {
     }
 
     const std::unique_ptr<char, database::PrefFreeFn> raw{
-        g_cfg.get(ORG_NAME.c_str(), LIB_NAME.c_str()), g_cfg.free};
+        g_cfg.get(ORG_NAME, LIB_NAME), g_cfg.free};
 
     if (!raw || raw.get()[0] == '\0') {
         throw std::runtime_error(
