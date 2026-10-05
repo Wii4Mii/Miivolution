@@ -2,6 +2,9 @@
 
 #include <cstdint>
 #include <cstring>
+#if defined(_MSC_VER)
+    #include <cstdlib>
+#endif
 
 namespace revointernal {
 
